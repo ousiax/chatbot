@@ -94,4 +94,4 @@ The Divide and Conquer strategy is used in many algorithms like quicksort, merge
 >^C
 ```
 
-NOTE: Please replace your own key and endpoint, and deployment mode etc.
+NOTE: Please replace your own key (`-k`) and endpoint (`-p`), and deployment mode (`-d`) etc.
