@@ -60,7 +60,7 @@ func main() {
 In this function the pivot element is chosen randomly, if you will return sorted array in `quicksort()` function. Then divide-and-conquer approach is used to recursively sort the elements from the left and right.
 
 Please note the use of the `rand.Int()`. You'll need to import `"math/rand"` package to use it.
->
+>^C
 ```
 
 NOTE: Please replace your own key and endpoint, and deployment mode etc.
