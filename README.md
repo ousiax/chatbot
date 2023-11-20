@@ -25,7 +25,7 @@ Sure, I can provide and explain a simple implementation of the quicksort algorit
 
 Here it is:
 
-```go
+//```go
 package main
 
 import (
@@ -61,7 +61,7 @@ func main() {
         list := []int{3, 2, 1, 5, 6, 7, 4, 9, 8, 0}
         fmt.Println(quicksort(list))
 }
-```
+//```
 
 Explanation:
 1. First, we check the length of the array. If it is less than 2, we simply return the array as it is considered to be already sorted.
