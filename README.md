@@ -20,7 +20,47 @@ $ ./chatbot -k REDACTED -p https://REDACTED.openai.azure.com/
 Hello! How can I assist you today?
 > Who's the present President of USA?
 As of my last update in September 2021, the current President of the United States is Joe Biden. He was inaugurated as the 46th President of the United States on January 20, 2021. Please verify from a real-time source.
+> pls write a quicksort in Go
+Sure, here is an example of the quicksort algorithm implemented in Go:
+
+```Go
+package main
+
+import (
+    "fmt"
+)
+
+func quicksort(arr []int) []int {
+    if len(arr) < 2 {
+        return arr
+    }
+    left, right := 0, len(arr)-1
+    pivot := rand.Int() % len(arr)
+    arr[pivot], arr[right] = arr[right], arr[pivot]
+
+    for i, _ := range arr {
+        if arr[i] < arr[right] {
+        arr[i], arr[left] = arr[left], arr[i]
+        left++
+        }
+    }
+    arr[left], arr[right] = arr[right], arr[left]
+
+    quicksort(arr[:left])
+    quicksort(arr[left+1:])
+
+    return arr
+}
+
+func main() {
+    nums := []int{45, 75, 90, 2, 1, 0, 10, 15, 30}
+    fmt.Println(quicksort(nums))
+}
+```
+In this function the pivot element is chosen randomly, if you will return sorted array in `quicksort()` function. Then divide-and-conquer approach is used to recursively sort the elements from the left and right.
+
+Please note the use of the `rand.Int()`. You'll need to import `"math/rand"` package to use it.
 >
 ```
 
-NOTE: Please replace your own key and endpoint.
+NOTE: Please replace your own key and endpoint, and deployment mode etc.
