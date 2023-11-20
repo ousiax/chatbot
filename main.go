@@ -27,17 +27,20 @@ var (
 	conversationP = pflag.IntP("conversation", "c", 10, "Set the number of past messages to include in each new API request. "+
 		"This helps give the model context for new user queries. "+
 		"Setting this number to 10 will include 5 user queries and 5 system responses.")
+	verboseP = pflag.BoolP("verbose", "v", false, "Enable verbose log output.")
 )
 
 func main() {
 	pflag.Parse()
 
-	// Print log events to stdout
-	azlog.SetListener(func(cls azlog.Event, msg string) {
-		fmt.Println(msg)
-	})
-	// Includes only requests and responses in credential logs
-	azlog.SetEvents(azlog.EventRequest, azlog.EventResponse)
+	if *verboseP {
+		// Print log events to stdout
+		azlog.SetListener(func(cls azlog.Event, msg string) {
+			fmt.Println(msg)
+		})
+		// Includes only requests and responses in credential logs
+		azlog.SetEvents(azlog.EventRequest, azlog.EventResponse)
+	}
 
 	// fmt.Println(*key, *endpoint, *model, *context, *system)
 	if *keyP == "" || *endpointP == "" || *deploymentP == "" || *conversationP == 0 || *systemP == "" {
