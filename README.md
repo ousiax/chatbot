@@ -95,3 +95,6 @@ The Divide and Conquer strategy is used in many algorithms like quicksort, merge
 ```
 
 NOTE: Please replace your own key (`-k`) and endpoint (`-p`), and deployment mode (`-d`) etc.
+
+
+// `gpt-4`, `gpt-4-32`, `gpt-35-turbo`
