@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/ai/azopenai"
 	azlog "github.com/Azure/azure-sdk-for-go/sdk/azcore/log"
@@ -64,6 +66,9 @@ func main() {
 		{Role: to.Ptr(azopenai.ChatRoleSystem), Content: to.Ptr(*systemP)},
 	}
 
+	quits := make(chan os.Signal, 1)
+	signal.Notify(quits, syscall.SIGINT, syscall.SIGQUIT)
+
 	fmt.Println("Type quit or exit to exit")
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
@@ -72,13 +77,32 @@ func main() {
 		}
 
 		fmt.Printf("> ")
-		scanner.Scan()
-		userMessage := scanner.Text()
+
+		var userMessage string
+		for scanner.Scan() {
+			text := scanner.Text()
+			if strings.TrimSpace(text) == "" {
+				break
+			}
+			userMessage += text + "\n"
+		}
+
+		select {
+		case <-quits:
+			os.Exit(0)
+		default:
+		}
+
+		if userMessage == "" {
+			continue
+		}
 
 		if strings.EqualFold("quit", userMessage) ||
 			strings.EqualFold("exit", userMessage) {
 			break
 		}
+
+		fmt.Printf("* ")
 
 		// NOTE: all messages, regardless of role, count against token usage for this API.
 		messages = append(messages, azopenai.ChatMessage{Role: to.Ptr(azopenai.ChatRoleUser), Content: to.Ptr(userMessage)})
@@ -92,6 +116,7 @@ func main() {
 		}
 
 		messages = append(messages, azopenai.ChatMessage(*resp.Choices[0].Message))
-		fmt.Printf("%s\n", *resp.Choices[0].Message.Content)
+		fmt.Printf("%s", *resp.Choices[0].Message.Content)
+		fmt.Printf("\n\n")
 	}
 }
